@@ -1,109 +1,140 @@
 
+'use strict';
 
-// const maxnotes = 20; // win game if reach this many notes
-const maxNotes = 4; // win game if reach this many notes
-// var userNotes = []; // user-input sequence
-var m_state = null;
-var m_strict = false;
+// const maxSquares = 4; // win game if reach this many squares
+
 
 // game states
-// const stateOff = 0;
+const stateOff = 0;
 const stateOn = 1;
 const stateStart = 2;
-const statePlayNotes = 3;
+const statePlaySquares = 3;
 const stateGetInput = 4;
-const statePlayNote = 5;
+// const statePlaySquare = 5;
 const statePlayError = 6;
 const statePlayWin = 7;
 
 
-
-var synth = new Synth();
-
-class Sequencer {
-    constructor(synth, lights, notes) {
-    }
-    play(nnotes) {
-    }
-    _playNextNote() {
-    }
-}
-
-var sequencer = new Sequencer();
+// var synth = new Synth();
 
 
+// // the sequencer hooks up to a synthesizer and light array,
+// // and plays a set sequence of 
+// class Sequencer {
+//     constructor(synth, lights) {
+//         this.synth = synth;
+//         this.lights = lights;
+//     }
+//     load(notes) {
+//         this.notes = notes;
+//     }
+//     play(nnotes) {
+//         this.nnote = 0; // current note
+//     }
+//     _playNextNote() {
+//         if (this.nnote < this.nnotesToPlay) {
+//             var note = this.notes[this.nnote];
+//             this.callbackPlayNote(note, this.duration);
+//         } 
+//     }
+// }
 
-class Game {
-    constructor(callbackPlayNote) {
-        this.callbackPlayNote = callbackPlayNote;
-        this.state = stateOn;
+// var sequencer = new Sequencer();
+
+
+class Simon {
+    
+    constructor(ui) {
+        this.ui = ui;
         this.strict = false;
-        this.notes = null;
-        this.inote = null;
-        this.inotemax = null;
+        this.state = stateOn;
     }
+    
     start() {
-        //. pause then call playNotes
         this.state = stateStart;
-        // var notes = this._generateNotes(maxNotes);
-        this.notes = [1,2,3,4];
-        this.inotemax = 2; // current number of notes to play
-        this.inote = 0;
-        this.playNotes();
-        this.userNotes = []; // clear user sequence
+        // var squares = this._generateSquares(maxSquares);
+        this.squares = [1,2,3,4];
         this.speed = 1.0;
-        this.noteLength = 250 / speed; // msec
-        this.pauseLength = 50 / speed; // msec
-        // this.currentNote = notes[nnotes-1];
-        // increase speed
-        // this.speed *= 1.1;
+        // this.noteLength = 250 / this.speed; // msec
+        // this.pauseLength = 100 / this.speed; // msec
+        // this.decayLength = 50; // msec
+        this.nsquaresToPlay = 1; // current number of squares to play
+        //. pause then call _playSquares
+        this._playSquares(); // next state
     }
-    // generate a random sequence
-    _generateNotes(nnotes) {
-        var notes = [];
-        for (var i=0; i < nnotes; i++) {
-            notes[i] = Math.floor(Math.random() * 4) + 1;
-        }
-        return notes;
-    }
-    playNotes() {
-        m_state = statePlayNotes;
-        this.inote = 0;
-        this.playNextNote();
-        m_state = stateGetInput;
-    }
-    playNextNote() {
-        if (this.inote < this.inotemax) {
-            var note = this.notes[this.inote];
-            this.callbackPlayNote(note, this.duration);
-        }
-    }
-    userHitNote(note) {
-        // if in getinput state, add to usernotes and return true, else return false
-        // if (m_state == stateGetInput) {
-            console.log('user hit '+ note);
+    
+    hitSquare(square) {
+        // if in getinput state, add to usersquares and return true, else return false
+        console.log('user hit square', square);
+        if (this.state == stateGetInput) {
+            
+            console.log('nsquare,squares.length,toplay', this.nsquare, this.squares.length, this.nsquaresToPlay);
+            var squareShouldBe = this.squares[this.nsquare];
+            console.log('should be', squareShouldBe);
+            if (square===squareShouldBe) {
+                this.nsquare++;
+                if (this.nsquare>=this.squares.length) {
+                    this._playWin();
+                } else if (this.nsquare===this.nsquaresToPlay) {
+                    console.log('done with sequence - increase speed and ntoplay');
+                    this.speed *= 1.1; // increase speed
+                    this.nsquaresToPlay++;
+                    this._playSquares();
+                } else {
+                    // wait for next input
+                }
+            } else { // error
+                this._playError();
+            }
             return true;
-        // } else {
-            // return false;
-        // }
+            
+        } else { // not in getinput state
+            return false;
+        }
     }
+    
     toggleStrict() {
         this.strict = !this.strict;
     }
+    
+    // private methods
+    // ----------------------------------------
+    
+    // generate a random sequence
+    _generateSquares(nsquares) {
+        var squares = [];
+        for (var i=0; i < nsquares; i++) {
+            squares[i] = Math.floor(Math.random() * 4) + 1;
+        }
+        return squares;
+    }
+    
+    _playSquares() {
+        this.state = statePlaySquares;
+        console.log('playsquares', this.nsquaresToPlay, 'squares');
+        this.ui.playSquares(this.squares, this.nsquaresToPlay);
+        this.nsquare = 0;
+        this.state = stateGetInput; // next state - wait for user input
+    }
+    
+    _playError() {
+        this.state = statePlayError;
+        this.ui.playSquares([4,3,2,1,4,3,2,1,4,3,2,1]);
+        if (this.strict) {
+            this.start();
+        } else {
+            this._playSquares();
+        }
+    }
+    
+    _playWin() {
+        this.state = statePlayWin;
+        this.ui.playSquares([1,2,3,4,1,2,3,4,1,2,3,4]);
+        this.start();
+    }
+    
 }
 
 
-/* user input
-------------------------------------------------------------- */
 
-function hitStart() {
-}
-
-// onclick add note to userNotes
-function playNote(note) {
-    // highlight the square
-    // lightSquare();
-    // play the sound
-    // playSound();
-}
-
+module.exports = Simon;

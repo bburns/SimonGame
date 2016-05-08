@@ -1,4 +1,7 @@
 
+// the synthesizer plays sounds using the web audio api built into modern browsers
+
+
 // see https://en.wikipedia.org/wiki/Piano_key_frequencies
 // var m_pitches = [400,450,526,350];
 var G=391.995, A=440.000, C=523.251, F=349.228, C3=180.813, C6=1046.50;
@@ -7,16 +10,15 @@ var m_pitchLose = C3;
 var m_pitchWin = C6;
 
 
-// var m_audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-// var m_oscillator = null;
-
 class Synth {
+    
     constructor() {
         this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         this.oscillator = null;
         this.onStop = null;
         this.soundStarted = false;
     }
+    
     // start synth
     // start(frequency=1000, startTime=0, onEnd=null) {
     start(note=1, startTime=0, onEnd=null) {
@@ -40,6 +42,7 @@ class Synth {
         this.soundStarted = true;
         this.oscillator = oscillator;
     }
+    
     // stop synth
     stop() {
         console.log('stopsound');
@@ -52,6 +55,7 @@ class Synth {
             this.soundStarted = false;
         }
     }
+    
     // play sound for a specific duration of time
     // play(frequency=1000, duration=250, startTime=0, onEnd) {
     play(note=1, duration=250, startTime=0, onEnd) {
@@ -67,6 +71,7 @@ class Synth {
             this.oscillator.onended = onEnd;
         }
     }
+    
 }
 
 

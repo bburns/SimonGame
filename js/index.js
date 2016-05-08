@@ -42,7 +42,7 @@ function playNote(note=1, duration=250, startTime=0) {
 
 
 // initialize the game, register callbacks
-var m_game = new Game(playNote);
+var m_game = new Simon(playNote);
 var m_synth = new Synth();
 
 var $square = [];
