@@ -1,0 +1,46 @@
+body {
+  color: #ccc;
+  background-color: #333;
+  box-sizing: border-box;
+}
+
+.container {
+}
+
+table {
+  border-spacing: 6px;
+  position: absolute;
+  top: 50%;
+  margin-top: -100px;
+  left: 50%;
+  margin-left: -100px;
+}
+
+table td {
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
+  box-shadow: 2px 2px black;
+}
+table td:hover {
+  border: 1px dotted gray;
+}
+table td:active {
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+
+#color1 {
+  background: red;
+}
+#color2 {
+  background: lime;
+}
+#color3 {
+  background: #fa0;
+}
+#color4 {
+  background: #08f;
+}
+
