@@ -32,6 +32,12 @@ function stopSound() {
     m_oscillator.stop();
 }
 
+function playNote(nnote) {
+    var pitch = m_pitches[nnote-1];
+    playSound(pitch);
+}
+
+
 var m_pitches = [400,450,526,350];
 var m_pitchLose = 300;
 var m_pitchWin = 550;
@@ -41,16 +47,14 @@ $(document).ready(function() {
     var $square = [];
     for (var i = 1; i<=4; i++) {
         var idname = '#color'+i;
-        var pitch = m_pitches[i-1];
+        // var pitch = m_pitches[i-1];
         $square[i] = $(idname);
-        $square[i].on('mousedown', playSound.bind(null, pitch));
+        $square[i].on('mousedown', playNote.bind(null, i));
         $square[i].on('mouseup', stopSound);
         $square[i].on('mouseout', stopSound);
     }
-
     
     // $('#strict').on('click', function() {alert('pokpok');});
     $('#strict').on('click', function() {m_strict = !m_strict;});
-
     
 });

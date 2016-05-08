@@ -14,21 +14,9 @@ const statePlayNote = 5;
 const statePlayError = 6;
 const statePlayWin = 7;
 
-var m_state = stateOn;
+var m_state = null;
 
 
-function lightSquare(square) {
-}
-
-function unlightSquare(square) {
-}
-
-function playNote(note, noteLength, startTime) {
-    // highlight the square
-    lightSquare();
-    // play the sound
-    // playSound();
-}
 
 function playNotes(notes, nnotes, noteLength, pauseLength) {
     for (var i=0; i < nnotes; i++) {
@@ -53,31 +41,33 @@ function playGame() {
     var noteLength = 250 / speed; // msec
     var pauseLength = 50 / speed; // msec
     var won = true;
-    for (nnotes = 1; nnotes <= maxNotes; nnotes++) {
-        // play a round
-        playNotes(notes, nnotes, noteLength, pauseLength);
-        var currentNote = notes[nnotes-1];
-        // wait for input
-        if (getInput(currentNote)) {
-            // increase speed
-            speed *= 1.1;
-        } else {
-            won=false;
-            break;
-        }
-    }
-    if (won) {
-        alert('you won!');
-        // play the sequence really fast a few times
-    }
+    
+    m_state = stateStart;
+    
+    m_state = statePlayNotes;
+    playNotes(notes, nnotes, noteLength, pauseLength);
+    
+    m_state = stateGetInput;
+    var currentNote = notes[nnotes-1];
+    
+    
+    // increase speed
+    speed *= 1.1;
 }
 
 
-function getInput() {
+
+/* user input
+------------------------------------------------------------- */
+
+function hitStart() {
 }
 
 // onclick add note to userNotes
-
-
-
+function playNote(note) {
+    // highlight the square
+    // lightSquare();
+    // play the sound
+    // playSound();
+}
 
