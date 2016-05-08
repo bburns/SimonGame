@@ -1,7 +1,7 @@
 body {
-  color: #ccc;
-  background-color: #333;
-  box-sizing: border-box;
+    color: #ccc;
+    background-color: #333;
+    box-sizing: border-box;
 }
 
 .container {
@@ -9,43 +9,43 @@ body {
 
 
 #game {
-  position: absolute;
-  top: 50%;
-  margin-top: -100px;
-  left: 50%;
-  margin-left: -100px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: 50%;
+    margin-left: -100px;
 }
 
 #squares {
-  border-spacing: 6px;
+    border-spacing: 6px;
 }
 
 #squares td {
-  height: 100px;
-  width: 100px;
-  border: 1px solid black;
-  box-shadow: 2px 2px black;
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    box-shadow: 2px 2px black;
 }
 #squares td:hover {
-  border: 1px dotted gray;
+    border: 1px dotted gray;
 }
 #squares td:active {
-  position: relative;
-  top: 2px;
-  left: 2px;
+    position: relative;
+    top: 2px;
+    left: 2px;
 }
 
 #color1 {
-  background: red;
+    background: red;
 }
 #color2 {
-  background: lime;
+    background: lime;
 }
 #color3 {
-  background: #fa0;
+    background: #fa0;
 }
 #color4 {
-  background: #08f;
+    background: #08f;
 }
 
 
