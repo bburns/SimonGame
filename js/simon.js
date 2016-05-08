@@ -31,7 +31,10 @@ class Game {
     playNotes() {
         this.callbackPlayNote(3, 250);
     }
-    playNote() {
+    userHitNote(note) {
+        // if in getinput state, add to usernotes and return true, else return false
+        console.log('user hit '+ note);
+        return true;
     }
     toggleStrict() {
         this.strict = !this.strict;
