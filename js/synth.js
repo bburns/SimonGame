@@ -46,12 +46,15 @@ class Synth {
     // play sound for a specific duration of time
     play(frequency=1000, duration=250, startTime=0, onEnd) {
         console.log('play', frequency, duration, startTime);
-        this.start(frequency, startTime);
-        var stopTime = this.audioCtx.currentTime + (duration / 1000); // needs seconds, not msecs
-        console.log('stoptime',stopTime);
-        this.oscillator.stop(stopTime); // this is more precise than using the js timer
+        // this.start(frequency, startTime);
+        var startAt = this.audioCtx.currentTime + (startTime/1000);
+        var stopAt = startAt + (duration / 1000); // needs seconds, not msecs
+        console.log('stopat',stopAt);
+        this.start(frequency, startAt);
+        // this.oscillator.stop(stopTime); // this is more precise than using the js timer
+        this.oscillator.stop(stopAt); // this is more precise than using the js timer
         if (onEnd) {
-console.log('set onended=', onEnd);
+            console.log('set onended=', onEnd);
             this.oscillator.onended = onEnd;
         }
     }

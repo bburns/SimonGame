@@ -22,23 +22,38 @@ class Game {
         this.callbackPlayNote = callbackPlayNote;
         this.state = stateOn;
         this.strict = false;
+        this.notes = null;
+        this.inote = null;
+        this.inotemax = null;
     }
     start() {
         //. pause then call playNotes
         this.state = stateStart;
+        this.notes = [1,2,3,4];
+        this.inotemax = 2;
+        this.inote = 0;
         this.playNotes();
     }
     playNotes() {
-        this.callbackPlayNote(3, 250);
-        // this.callbackPlayNote(2, 250, 250);
-        // m_state = statePlayNotes;
-        // playNotes(notes, nnotes, noteLength, pauseLength);
-        // m_state = stateGetInput;
+        m_state = statePlayNotes;
+        this.inote = 0;
+        this.playNextNote();
+        m_state = stateGetInput;
+    }
+    playNextNote() {
+        if (this.inote < this.inotemax) {
+            var note = this.notes[this.inote];
+            this.callbackPlayNote(note, this.duration);
+        }
     }
     userHitNote(note) {
         // if in getinput state, add to usernotes and return true, else return false
-        console.log('user hit '+ note);
-        return true;
+        // if (m_state == stateGetInput) {
+            console.log('user hit '+ note);
+            return true;
+        // } else {
+            // return false;
+        // }
     }
     toggleStrict() {
         this.strict = !this.strict;
