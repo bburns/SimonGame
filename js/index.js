@@ -82,10 +82,6 @@ var $square = [];
 
 $(document).ready(function() {
 
-
-playSound();
-
-    
     for (var i = 1; i<=4; i++) {
         var idname = '#color'+i;
         $square[i] = $(idname);
