@@ -45,10 +45,26 @@ class Game {
     start() {
         //. pause then call playNotes
         this.state = stateStart;
+        // var notes = this._generateNotes(maxNotes);
         this.notes = [1,2,3,4];
-        this.inotemax = 2;
+        this.inotemax = 2; // current number of notes to play
         this.inote = 0;
         this.playNotes();
+        this.userNotes = []; // clear user sequence
+        this.speed = 1.0;
+        this.noteLength = 250 / speed; // msec
+        this.pauseLength = 50 / speed; // msec
+        // this.currentNote = notes[nnotes-1];
+        // increase speed
+        // this.speed *= 1.1;
+    }
+    // generate a random sequence
+    _generateNotes(nnotes) {
+        var notes = [];
+        for (var i=0; i < nnotes; i++) {
+            notes[i] = Math.floor(Math.random() * 4) + 1;
+        }
+        return notes;
     }
     playNotes() {
         m_state = statePlayNotes;
@@ -75,35 +91,6 @@ class Game {
         this.strict = !this.strict;
     }
 }
-
-
-function playNotes(notes, nnotes, noteLength, pauseLength) {
-    for (var i=0; i < nnotes; i++) {
-        playNote(notes[i], noteLength, i * noteLength);
-    }
-}
-
-// generate a random sequence
-function generateNotes(nnotes) {
-    var notes = [];
-    for (var i=0; i < nnotes; i++) {
-        notes[i] = Math.floor(Math.random() * 4) + 1;
-    }
-    return notes;
-}
-
-function playGame() {
-    var notes = generateNotes(maxNotes);
-    var userNotes = []; // clear user sequence
-    var nnotes = 1; // current number of notes to play
-    var speed = 1.0;
-    var noteLength = 250 / speed; // msec
-    var pauseLength = 50 / speed; // msec
-    var currentNote = notes[nnotes-1];
-    // increase speed
-    speed *= 1.1;
-}
-
 
 
 /* user input
