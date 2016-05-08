@@ -24,12 +24,16 @@ class Game {
         this.strict = false;
     }
     start() {
-        this.state = stateStart;
         //. pause then call playNotes
+        this.state = stateStart;
         this.playNotes();
     }
     playNotes() {
         this.callbackPlayNote(3, 250);
+        // this.callbackPlayNote(2, 250, 250);
+        // m_state = statePlayNotes;
+        // playNotes(notes, nnotes, noteLength, pauseLength);
+        // m_state = stateGetInput;
     }
     userHitNote(note) {
         // if in getinput state, add to usernotes and return true, else return false
@@ -64,16 +68,7 @@ function playGame() {
     var speed = 1.0;
     var noteLength = 250 / speed; // msec
     var pauseLength = 50 / speed; // msec
-    var won = true;
-    
-    m_state = stateStart;
-    
-    m_state = statePlayNotes;
-    playNotes(notes, nnotes, noteLength, pauseLength);
-    
-    m_state = stateGetInput;
     var currentNote = notes[nnotes-1];
-    
     // increase speed
     speed *= 1.1;
 }

@@ -9,8 +9,8 @@ var m_oscillator = null;
 
 
 
-// function startSound(frequency=1000, duration=250, startTime=0) {
-function startSound(frequency=1000) {
+function startSound(frequency=1000, startTime=0, onEnd=null) {
+console.log('startsound',frequency,startTime);
     m_oscillator = m_audioCtx.createOscillator();
     m_oscillator.type = 'sine';
     m_oscillator.frequency.value = frequency; // Hz
@@ -22,14 +22,14 @@ function startSound(frequency=1000) {
     // const endVolume = 0.001;
     // gainNode.gain.setValueAtTime(startVolume, m_audioCtx.currentTime);
     // gainNode.gain.exponentialRampToValueAtTime(endVolume, m_audioCtx.currentTime + duration/1000); // secs
-    m_oscillator.start();
+    m_oscillator.start(startTime);
     // if (onEnd) {
         // m_oscillator.onend = onEnd;
     // }
 }
 
 function stopSound() {
-    console.log('stopsound');
+console.log('stopsound');
     if (m_oscillator) {
         //. ramp down
         m_oscillator.stop();
@@ -40,14 +40,11 @@ function stopSound() {
 }
 
 // start and stop a sound
-// function playSound(frequency=1000, duration=250, startTime=0, onEnd) {
-function playSound(frequency=1000, duration=250, onEnd) {
-// function playSound(frequency=1000, duration=250) {
-    // startSound(frequency, duration, startTime, onEnd);
-    // startSound(frequency, duration, onEnd);
-console.log('playsound');    
-    startSound(frequency);
+function playSound(frequency=1000, duration=250, startTime=0, onEnd) {
+console.log('playsound', frequency, duration, startTime);
+    startSound(frequency, startTime);
     var stopTime = m_audioCtx.currentTime + (duration / 1000); // needs seconds, not msecs
+    console.log('stoptime',stopTime);
     m_oscillator.stop(stopTime);
     if (onEnd) {
         m_oscillator.onend = onEnd;
@@ -67,24 +64,28 @@ function unlightNote(note) {
 
 // play the given note for duration msecs
 // if duration is null, will just start the note - call stopSound to stop it
-function playNote(note, duration) {
+function playNote(note=1000, duration=250, startTime=0) {
     // returns true if ok for user to play a sound now
     if (m_game.userHitNote(note)) { 
         lightNote(note);
         var pitch = m_pitches[note-1];
-        playSound(pitch, duration, unlightNote.bind(null, note));
+        playSound(pitch, duration, startTime, unlightNote.bind(null, note));
         // playSound(pitch, duration);
     }
 }
 
 
-// initialize the game - just registers callbacks
+// initialize the game, register callbacks
 var m_game = new Game(playNote);
 
 var $square = [];
 
 $(document).ready(function() {
 
+
+playSound();
+
+    
     for (var i = 1; i<=4; i++) {
         var idname = '#color'+i;
         $square[i] = $(idname);
