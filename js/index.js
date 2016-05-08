@@ -4,52 +4,10 @@ var m_pitches = [400,450,526,350];
 var m_pitchLose = 300;
 var m_pitchWin = 550;
 
-var m_audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-var m_oscillator = null;
 
+var m_synth = new Synth();
 
-
-function startSound(frequency=1000, startTime=0, onEnd=null) {
-console.log('startsound',frequency,startTime);
-    m_oscillator = m_audioCtx.createOscillator();
-    m_oscillator.type = 'sine';
-    m_oscillator.frequency.value = frequency; // Hz
-    m_oscillator.connect(m_audioCtx.destination);
-    // var gainNode = m_audioCtx.createGain();
-    // oscillator.connect(gainNode);
-    // gainNode.connect(m_audioCtx.destination);
-    // const startVolume = 0.2;
-    // const endVolume = 0.001;
-    // gainNode.gain.setValueAtTime(startVolume, m_audioCtx.currentTime);
-    // gainNode.gain.exponentialRampToValueAtTime(endVolume, m_audioCtx.currentTime + duration/1000); // secs
-    m_oscillator.start(startTime);
-    // if (onEnd) {
-        // m_oscillator.onend = onEnd;
-    // }
-}
-
-function stopSound() {
-console.log('stopsound');
-    if (m_oscillator) {
-        //. ramp down
-        m_oscillator.stop();
-        if (m_oscillator.onend)
-            m_oscillator.onend();
-        m_oscillator = null;
-    }
-}
-
-// start and stop a sound
-function playSound(frequency=1000, duration=250, startTime=0, onEnd) {
-console.log('playsound', frequency, duration, startTime);
-    startSound(frequency, startTime);
-    var stopTime = m_audioCtx.currentTime + (duration / 1000); // needs seconds, not msecs
-    console.log('stoptime',stopTime);
-    m_oscillator.stop(stopTime);
-    if (onEnd) {
-        m_oscillator.onend = onEnd;
-    }
-}
+var m_noteStarted = false;
 
 
 function lightNote(note) {
@@ -61,17 +19,30 @@ function unlightNote(note) {
     $square[note].removeClass('lit');
 }
 
-
-// play the given note for duration msecs
-// if duration is null, will just start the note - call stopSound to stop it
-function playNote(note=1000, duration=250, startTime=0) {
+function startNote(note=1) {
     // returns true if ok for user to play a sound now
     if (m_game.userHitNote(note)) { 
+        m_noteStarted = true;
         lightNote(note);
         var pitch = m_pitches[note-1];
-        playSound(pitch, duration, startTime, unlightNote.bind(null, note));
-        // playSound(pitch, duration);
+        m_synth.start(pitch);
     }
+}
+
+function stopNote(note) {
+    if (m_noteStarted) {
+        m_noteStarted = false;
+        unlightNote(note);
+        m_synth.stop();
+    }
+}
+
+// play the given note (1-4) for duration msecs
+// if duration is null, will just start the note - call stopSound to stop it
+function playNote(note=1, duration=250, startTime=0) {
+    lightNote(note);
+    var pitch = m_pitches[note-1];
+    m_synth.play(pitch, duration, startTime, unlightNote.bind(null, note));
 }
 
 
@@ -85,9 +56,9 @@ $(document).ready(function() {
     for (var i = 1; i<=4; i++) {
         var idname = '#color'+i;
         $square[i] = $(idname);
-        $square[i].on('mousedown', playNote.bind(null, i, null));
-        $square[i].on('mouseup', stopSound);
-        $square[i].on('mouseout', stopSound);
+        $square[i].on('mousedown', startNote.bind(null, i));
+        $square[i].on('mouseup', stopNote.bind(null, i));
+        $square[i].on('mouseout', stopNote.bind(null, i));
     }
     
     $('#start').on('click', function() {m_game.start();});
