@@ -10,10 +10,10 @@ body {
 
 #game {
     position: absolute;
-    top: 50%;
-    margin-top: -100px;
     left: 50%;
     margin-left: -100px;
+    top: 50%;
+    margin-top: -125px;
 }
 
 #squares {
@@ -53,4 +53,52 @@ body {
     text-align: center;
 }
 
+
+
+
+a#start {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid gray;
+    color: red;
+text-decoration: none;
+}
+
+
+.vis-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+label {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+input:checked + label {
+    border-color: yellow;
+    color: yellow;
+}
+
+/* input:focus + label { */
+/*   border-color: blue; */
+/* } */
+
+/* input:focus:checked + label { */
+/*   border-color: green; */
+/* } */
+
+/* input:active + label { */
+/*   border-color: yellow; */
+/* } */
 

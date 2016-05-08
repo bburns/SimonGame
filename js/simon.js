@@ -74,7 +74,6 @@ function playGame() {
 
 
 function getInput() {
-
 }
 
 // onclick add note to userNotes

@@ -3,6 +3,10 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var m_oscillator = null;
 
+var m_strict = false;
+
+
+
 function playSound(frequency=1000, duration=500, startTime=0, onEnd) {
     // var oscillator = audioCtx.createOscillator();
     m_oscillator = audioCtx.createOscillator();
@@ -45,7 +49,8 @@ $(document).ready(function() {
     }
 
     
-
+    // $('#strict').on('click', function() {alert('pokpok');});
+    $('#strict').on('click', function() {m_strict = !m_strict;});
 
     
 });
