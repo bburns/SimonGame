@@ -13,13 +13,14 @@ class Sequencer {
     load(squares) {
         this.squares = squares;
     }
-    play(nsquaresToPlay, duration, gap) {
-        this.duration = duration || 250; // msec
-        this.gap = gap || 100; // msec
-        this.nsquaresToPlay = nsquaresToPlay || this.squares.length; // ie play all
-        this.nsquare = 0;
-        //. this is where we need to schedule things - start,stop start,stop, etc.
+    play(nsquaresToPlay, duration, gap, next) {
+        // this is where we need to schedule things - start,stop start,stop, etc.
         // but re-use timers - don't create 40 of them - chain them
+        this.nsquaresToPlay = nsquaresToPlay || this.squares.length; // ie play all
+        this.duration = duration || 250; // msec
+        this.gap = gap || 250; // msec
+        this.nsquare = 0;
+        this.next = next;
         this._playNext();
     }
     _playNext() {
@@ -28,6 +29,9 @@ class Sequencer {
             this.lights.start(square);
             this.synth.start(square);
             setTimeout(this._pause.bind(this), this.duration);
+        } else {
+            if (this.next)
+                this.next();
         }
     }
     _pause() {

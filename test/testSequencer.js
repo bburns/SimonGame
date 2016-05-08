@@ -1,9 +1,9 @@
 
+// run with node to test sequencer
+
 'use strict';
 
-
 var Sequencer = require('../js/sequencer');
-
 
 // mock objects
 
@@ -20,6 +20,7 @@ var sequencer = new Sequencer(synth, lights);
 
 sequencer.load([1,2,3,4]);
 sequencer.play();
+
 
 
 

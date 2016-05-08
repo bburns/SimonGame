@@ -2,34 +2,20 @@
 // main app
 
 
-
-
-
-// // play the given square (1-4) for duration msecs
-// // if duration is null, will just start the square - call stopSound to stop it
-// function playSquare(square=1, duration=250, startTime=0) {
-//     lightSquare(square);
-//     // var pitch = m_pitches[square-1];
-//     // synth.play(pitch, duration, startTime, unlightSquare.bind(null, square));
-//     synth.play(square, duration, startTime, unlightSquare.bind(null, square));
-// }
-
-
+// the user interface needs only one method, to play a sequence of squares
 class Ui {
     constructor(sequencer) {
         this.sequencer = sequencer;
     }
-    playSquares(squares, ntoplay) {
+    playSquares(squares, ntoplay, duration, gap, next) {
         this.sequencer.load(squares);
-        this.sequencer.play(ntoplay);
+        this.sequencer.play(ntoplay, duration, gap, next);
     }
-    // playSquare(square) {
-        // console.log('square',square);
-    // }
 }
 
 
-// mock
+// lights interface
+var $square = [];
 var lights = {};
 lights.start = function(square) {
     console.log('lights start', square);
@@ -41,18 +27,7 @@ lights.stop = function(square) {
 };
 
 
-var synth = new Synth();
-// var lights = new Lights();
-var sequencer = new Sequencer(synth, lights);
-var ui = new Ui(sequencer);
-var simon = new Simon(ui);
-
-
-var $square = [];
-
-
-
-
+// mousedown and up handlers
 var m_squareStarted = false;
 
 function startSquare(square) {
@@ -74,10 +49,15 @@ function stopSquare(square) {
 }
 
 
+var synth = new Synth();
+var sequencer = new Sequencer(synth, lights);
+var ui = new Ui(sequencer);
+var simon = new Simon(ui);
+
+
+// hook up ui events
 $(document).ready(function() {
 
-    // hook up ui events
-    
     $('#start').on('click', function() {simon.start();});
     $('#strict').on('click', function() {simon.toggleStrict();});
     

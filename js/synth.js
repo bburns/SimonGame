@@ -24,6 +24,10 @@ class Synth {
     
     // start synth
     start(note=1) {
+        if (this.oscillator) {
+            console.log('error - oscillator exists');
+            return;
+        }
         var frequency = m_pitches[note-1];
         console.log('startsound',note,frequency);
         var oscillator = this.audioCtx.createOscillator();
@@ -44,8 +48,8 @@ class Synth {
     }
     
     // stop synth
-    stop() {
-        console.log('stopsound');
+    stop(square) {
+        console.log('stopsound',square);
         if (this.soundStarted && this.oscillator) {
             //.. ramp down
             this.oscillator.stop();

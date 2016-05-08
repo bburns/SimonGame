@@ -34,6 +34,7 @@ class Simon {
         this.state = stateStart;
         // var squares = this._generateSquares(maxSquares);
         this.squares = [1,2,3,4];
+        this.pause = 500; // msec between rounds
         this.speed = 1.0;
         // this.noteLength = 250 / this.speed; // msec
         // this.pauseLength = 100 / this.speed; // msec
@@ -55,17 +56,20 @@ class Simon {
         if (square===squareShouldBe) {
             this.nsquare++;
             if (this.nsquare>=this.squares.length) {
-                this._playWin();
+                // this._playWin();
+                setTimeout(this._playWin.bind(this), this.pause);
             } else if (this.nsquare===this.nsquaresToPlay) {
                 console.log('done with sequence - increase speed and ntoplay');
                 this.speed *= 1.1; // increase speed
                 this.nsquaresToPlay++;
-                this._playSquares();
+                // this._playSquares();
+                setTimeout(this._playSquares.bind(this), this.pause);
             } else {
                 // wait for next input
             }
         } else { // error
-            this._playError();
+            // this._playError();
+            setTimeout(this._playError.bind(this), this.pause);
         }
         return true;
     }
@@ -91,25 +95,31 @@ class Simon {
     _playSquares() {
         this.state = statePlaySquares;
         console.log('playsquares', this.nsquaresToPlay, 'squares');
-        this.ui.playSquares(this.squares, this.nsquaresToPlay);
-        this.nsquare = 0;
-        this.state = stateGetInput; // next state - wait for user input
+        this.ui.playSquares(this.squares, this.nsquaresToPlay, 250, 250, function() {
+            this.nsquare = 0;
+            this.state = stateGetInput; // next state - wait for user input
+        }.bind(this));
     }
     
     _playError() {
         this.state = statePlayError;
-        this.ui.playSquares([4,3,2,1,4,3,2,1,4,3,2,1]);
-        if (this.strict) {
-            this.start();
-        } else {
-            this._playSquares();
-        }
+        // need to chain to the end of this sequence...
+        // this.ui.playSquares([4,3,2,1,4,3,2,1,4,3,2,1]);
+        // playSquares(squares, ntoplay, duration, gap, next) {
+        this.ui.playSquares([4,3,2,1,4,3,2,1], null, 250, 250, function() {
+            if (this.strict) {
+                setTimeout(this.start.bind(this), this.pause);
+            } else {
+                setTimeout(this._playSquares.bind(this), this.pause);
+            }
+        }.bind(this));
     }
     
     _playWin() {
         this.state = statePlayWin;
-        this.ui.playSquares([1,2,3,4,1,2,3,4,1,2,3,4]);
-        this.start();
+        this.ui.playSquares([1,2,3,4,1,2,3,4], null, 250, 250, function() {
+            setTimeout(this.start.bind(this), this.pause);
+        }.bind(this));
     }
     
 }
