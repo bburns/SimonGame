@@ -29,6 +29,8 @@ function stopSound() {
 }
 
 var m_pitches = [400,450,526,350];
+var m_pitchLose = 300;
+var m_pitchWin = 550;
 
 $(document).ready(function() {
 
@@ -42,24 +44,8 @@ $(document).ready(function() {
         $square[i].on('mouseout', stopSound);
     }
 
-    // $color1 = $('#color1');
-    // $color2 = $('#color2');
-    // $color3 = $('#color3');
-    // $color4 = $('#color4');
-
-    // $color1.on('mousedown', function() {playSound(400);});
-    // $color2.on('mousedown', function() {playSound(450);});
-    // $color3.on('mousedown', function() {playSound(525);});
-    // $color4.on('mousedown', function() {playSound(350);});
     
-    // $color1.on('mouseup', function() {stopSound();});
-    // $color2.on('mouseup', function() {stopSound();});
-    // $color3.on('mouseup', function() {stopSound();});
-    // $color4.on('mouseup', function() {stopSound();});
-    
-    // $color1.on('mouseout', function() {stopSound();});
-    // $color2.on('mouseout', function() {stopSound();});
-    // $color3.on('mouseout', function() {stopSound();});
-    // $color4.on('mouseout', function() {stopSound();});
 
+
+    
 });

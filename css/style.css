@@ -7,8 +7,8 @@ body {
 .container {
 }
 
-table {
-  border-spacing: 6px;
+
+#game {
   position: absolute;
   top: 50%;
   margin-top: -100px;
@@ -16,16 +16,20 @@ table {
   margin-left: -100px;
 }
 
-table td {
+#squares {
+  border-spacing: 6px;
+}
+
+#squares td {
   height: 100px;
   width: 100px;
   border: 1px solid black;
   box-shadow: 2px 2px black;
 }
-table td:hover {
+#squares td:hover {
   border: 1px dotted gray;
 }
-table td:active {
+#squares td:active {
   position: relative;
   top: 2px;
   left: 2px;
@@ -43,4 +47,10 @@ table td:active {
 #color4 {
   background: #08f;
 }
+
+
+#controls {
+    text-align: center;
+}
+
 

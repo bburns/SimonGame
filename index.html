@@ -9,16 +9,23 @@
     <body>
         
         <div class="container">
-            <table>
-                <tr>
-                    <td id="color1"></td>
-                    <td id="color2"></td>
-                </tr>
-                <tr>
-                    <td id="color3"></td>
-                    <td id="color4"></td>
-                </tr>
-            </table>
+
+            <div id="game">
+                
+                <table id="squares">
+                    <tr> <td id="color1"></td> <td id="color2"></td> </tr>
+                    <tr> <td id="color3"></td> <td id="color4"></td> </tr>
+                </table>
+                
+                <div id="controls">
+                    <div>Score: 00</div>
+                    <div>
+                        <button>Start</button>
+                        <button>Strict</button>
+                    </div>
+                </div>
+                
+            </div>
         </div>
         
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
