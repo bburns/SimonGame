@@ -1,4 +1,11 @@
 
+// see https://en.wikipedia.org/wiki/Piano_key_frequencies
+// var m_pitches = [400,450,526,350];
+var G=391.995, A=440.000, C=523.251, F=349.228, C3=180.813, C6=1046.50;
+var m_pitches = [G,A,C,F];
+var m_pitchLose = C3;
+var m_pitchWin = C6;
+
 
 // var m_audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 // var m_oscillator = null;
@@ -11,8 +18,10 @@ class Synth {
         this.soundStarted = false;
     }
     // start synth
-    start(frequency=1000, startTime=0, onEnd=null) {
-        console.log('startsound',frequency,startTime);
+    // start(frequency=1000, startTime=0, onEnd=null) {
+    start(note=1, startTime=0, onEnd=null) {
+        var frequency = m_pitches[note-1];
+        console.log('startsound',note,frequency,startTime);
         var oscillator = this.audioCtx.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.value = frequency; // Hz
@@ -44,13 +53,17 @@ class Synth {
         }
     }
     // play sound for a specific duration of time
-    play(frequency=1000, duration=250, startTime=0, onEnd) {
-        console.log('play', frequency, duration, startTime);
+    // play(frequency=1000, duration=250, startTime=0, onEnd) {
+    play(note=1, duration=250, startTime=0, onEnd) {
+        // var frequency = m_pitches[note-1];
+        // console.log('play', frequency, duration, startTime);
+        console.log('play', note, duration, startTime);
         // this.start(frequency, startTime);
         var startAt = this.audioCtx.currentTime + (startTime/1000);
         var stopAt = startAt + (duration / 1000); // needs seconds, not msecs
         console.log('stopat',stopAt);
-        this.start(frequency, startAt);
+        // this.start(frequency, startAt);
+        this.start(note, startAt);
         // this.oscillator.stop(stopTime); // this is more precise than using the js timer
         this.oscillator.stop(stopAt); // this is more precise than using the js timer
         if (onEnd) {

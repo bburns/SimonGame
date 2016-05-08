@@ -17,6 +17,22 @@ const statePlayError = 6;
 const statePlayWin = 7;
 
 
+
+var synth = new Synth();
+
+class Sequencer {
+    constructor(synth, lights, notes) {
+    }
+    play(nnotes) {
+    }
+    _playNextNote() {
+    }
+}
+
+var sequencer = new Sequencer();
+
+
+
 class Game {
     constructor(callbackPlayNote) {
         this.callbackPlayNote = callbackPlayNote;

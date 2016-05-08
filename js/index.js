@@ -1,12 +1,5 @@
 
 
-// see https://en.wikipedia.org/wiki/Piano_key_frequencies
-// var m_pitches = [400,450,526,350];
-var G=391.995, A=440.000, C=523.251, F=349.228, C3=180.813, C6=1046.50;
-var m_pitches = [G,A,C,F];
-var m_pitchLose = C3;
-var m_pitchWin = C6;
-
 
 var m_noteStarted = false;
 
@@ -19,13 +12,14 @@ function unlightNote(note) {
     $square[note].removeClass('lit');
 }
 
-function startNote(note=1) {
+function startNote(note) {
     // returns true if ok for user to play a sound now
     if (m_game.userHitNote(note)) { 
         m_noteStarted = true;
         lightNote(note);
-        var pitch = m_pitches[note-1];
-        m_synth.start(pitch);
+        // var pitch = m_pitches[note-1];
+        // m_synth.start(pitch);
+        m_synth.start(note);
     }
 }
 
@@ -41,8 +35,9 @@ function stopNote(note) {
 // if duration is null, will just start the note - call stopSound to stop it
 function playNote(note=1, duration=250, startTime=0) {
     lightNote(note);
-    var pitch = m_pitches[note-1];
-    m_synth.play(pitch, duration, startTime, unlightNote.bind(null, note));
+    // var pitch = m_pitches[note-1];
+    // m_synth.play(pitch, duration, startTime, unlightNote.bind(null, note));
+    m_synth.play(note, duration, startTime, unlightNote.bind(null, note));
 }
 
 
