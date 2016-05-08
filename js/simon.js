@@ -3,6 +3,8 @@
 // const maxnotes = 20; // win game if reach this many notes
 const maxNotes = 4; // win game if reach this many notes
 // var userNotes = []; // user-input sequence
+var m_state = null;
+var m_strict = false;
 
 // game states
 // const stateOff = 0;
@@ -14,8 +16,27 @@ const statePlayNote = 5;
 const statePlayError = 6;
 const statePlayWin = 7;
 
-var m_state = null;
 
+class Game {
+    constructor(callbackPlayNote) {
+        this.callbackPlayNote = callbackPlayNote;
+        this.state = stateOn;
+        this.strict = false;
+    }
+    start() {
+        this.state = stateStart;
+        //. pause then call playNotes
+        this.playNotes();
+    }
+    playNotes() {
+        this.callbackPlayNote(3, 250);
+    }
+    playNote() {
+    }
+    toggleStrict() {
+        this.strict = !this.strict;
+    }
+}
 
 
 function playNotes(notes, nnotes, noteLength, pauseLength) {
@@ -49,7 +70,6 @@ function playGame() {
     
     m_state = stateGetInput;
     var currentNote = notes[nnotes-1];
-    
     
     // increase speed
     speed *= 1.1;

@@ -1,60 +1,63 @@
 
 
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var m_pitches = [400,450,526,350];
+var m_pitchLose = 300;
+var m_pitchWin = 550;
+
+var m_audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 var m_oscillator = null;
 
-var m_strict = false;
 
-
-
-function playSound(frequency=1000, duration=500, startTime=0, onEnd) {
-    // var oscillator = audioCtx.createOscillator();
-    m_oscillator = audioCtx.createOscillator();
+function playSound(frequency=1000, duration=250, startTime=0, onEnd) {
+    m_oscillator = m_audioCtx.createOscillator();
     m_oscillator.type = 'sine';
     m_oscillator.frequency.value = frequency; // Hz
-    m_oscillator.connect(audioCtx.destination);
-    
-    // var gainNode = audioCtx.createGain();
+    m_oscillator.connect(m_audioCtx.destination);
+    // var gainNode = m_audioCtx.createGain();
     // oscillator.connect(gainNode);
-    // gainNode.connect(audioCtx.destination);
+    // gainNode.connect(m_audioCtx.destination);
     // const startVolume = 0.2;
     // const endVolume = 0.001;
-    // gainNode.gain.setValueAtTime(startVolume, audioCtx.currentTime);
-    // gainNode.gain.exponentialRampToValueAtTime(endVolume, audioCtx.currentTime + duration/1000); // secs
-    
+    // gainNode.gain.setValueAtTime(startVolume, m_audioCtx.currentTime);
+    // gainNode.gain.exponentialRampToValueAtTime(endVolume, m_audioCtx.currentTime + duration/1000); // secs
     m_oscillator.start();
-    // oscillator.stop(duration/1000); // secs
-    // return oscillator;
+    if (duration)
+        m_oscillator.stop(m_audioCtx.currentTime + duration/1000); // needs seconds, not msecs
     m_oscillator.onend = onEnd;
 }
 
 function stopSound() {
-    m_oscillator.stop();
+    if (m_oscillator) {
+        m_oscillator.stop();
+        m_oscillator = null;
+    }
 }
 
-function playNote(nnote) {
+function playNote(nnote, duration) {
     var pitch = m_pitches[nnote-1];
-    playSound(pitch);
+    playSound(pitch, duration);
 }
 
 
-var m_pitches = [400,450,526,350];
-var m_pitchLose = 300;
-var m_pitchWin = 550;
+// initialize the game - just registers callbacks
+var m_game = new Game(playNote);
+
 
 $(document).ready(function() {
 
     var $square = [];
     for (var i = 1; i<=4; i++) {
         var idname = '#color'+i;
-        // var pitch = m_pitches[i-1];
         $square[i] = $(idname);
         $square[i].on('mousedown', playNote.bind(null, i));
         $square[i].on('mouseup', stopSound);
         $square[i].on('mouseout', stopSound);
     }
     
-    // $('#strict').on('click', function() {alert('pokpok');});
-    $('#strict').on('click', function() {m_strict = !m_strict;});
+    $('#start').on('click', function() {m_game.start();});
+    $('#strict').on('click', function() {m_game.toggleStrict();});
+    
     
 });
+
+
