@@ -1,14 +1,14 @@
 
 
-var m_pitches = [400,450,526,350];
-var m_pitchLose = 300;
-var m_pitchWin = 550;
+// see https://en.wikipedia.org/wiki/Piano_key_frequencies
+// var m_pitches = [400,450,526,350];
+var G=391.995, A=440.000, C=523.251, F=349.228, C3=180.813, C6=1046.50;
+var m_pitches = [G,A,C,F];
+var m_pitchLose = C3;
+var m_pitchWin = C6;
 
-
-var m_synth = new Synth();
 
 var m_noteStarted = false;
-
 
 function lightNote(note) {
     console.log('light note',note);
@@ -48,6 +48,7 @@ function playNote(note=1, duration=250, startTime=0) {
 
 // initialize the game, register callbacks
 var m_game = new Game(playNote);
+var m_synth = new Synth();
 
 var $square = [];
 
