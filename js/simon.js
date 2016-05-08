@@ -18,27 +18,6 @@ const statePlayWin = 7;
 // var synth = new Synth();
 
 
-// // the sequencer hooks up to a synthesizer and light array,
-// // and plays a set sequence of 
-// class Sequencer {
-//     constructor(synth, lights) {
-//         this.synth = synth;
-//         this.lights = lights;
-//     }
-//     load(notes) {
-//         this.notes = notes;
-//     }
-//     play(nnotes) {
-//         this.nnote = 0; // current note
-//     }
-//     _playNextNote() {
-//         if (this.nnote < this.nnotesToPlay) {
-//             var note = this.notes[this.nnote];
-//             this.callbackPlayNote(note, this.duration);
-//         } 
-//     }
-// }
-
 // var sequencer = new Sequencer();
 
 
@@ -50,6 +29,7 @@ class Simon {
         this.state = stateOn;
     }
     
+    // public
     start() {
         this.state = stateStart;
         // var squares = this._generateSquares(maxSquares);
@@ -63,39 +43,38 @@ class Simon {
         this._playSquares(); // next state
     }
     
+    // public
     hitSquare(square) {
         // if in getinput state, add to usersquares and return true, else return false
         console.log('user hit square', square);
-        if (this.state == stateGetInput) {
-            
-            console.log('nsquare,squares.length,toplay', this.nsquare, this.squares.length, this.nsquaresToPlay);
-            var squareShouldBe = this.squares[this.nsquare];
-            console.log('should be', squareShouldBe);
-            if (square===squareShouldBe) {
-                this.nsquare++;
-                if (this.nsquare>=this.squares.length) {
-                    this._playWin();
-                } else if (this.nsquare===this.nsquaresToPlay) {
-                    console.log('done with sequence - increase speed and ntoplay');
-                    this.speed *= 1.1; // increase speed
-                    this.nsquaresToPlay++;
-                    this._playSquares();
-                } else {
-                    // wait for next input
-                }
-            } else { // error
-                this._playError();
+        if (this.state !== stateGetInput) return false;
+        
+        console.log('nsquare,squares.length,toplay', this.nsquare, this.squares.length, this.nsquaresToPlay);
+        var squareShouldBe = this.squares[this.nsquare];
+        console.log('should be', squareShouldBe);
+        if (square===squareShouldBe) {
+            this.nsquare++;
+            if (this.nsquare>=this.squares.length) {
+                this._playWin();
+            } else if (this.nsquare===this.nsquaresToPlay) {
+                console.log('done with sequence - increase speed and ntoplay');
+                this.speed *= 1.1; // increase speed
+                this.nsquaresToPlay++;
+                this._playSquares();
+            } else {
+                // wait for next input
             }
-            return true;
-            
-        } else { // not in getinput state
-            return false;
+        } else { // error
+            this._playError();
         }
+        return true;
     }
     
+    // public
     toggleStrict() {
         this.strict = !this.strict;
     }
+    
     
     // private methods
     // ----------------------------------------

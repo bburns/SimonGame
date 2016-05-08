@@ -39,5 +39,12 @@ simon.hitSquare(1);
 simon.hitSquare(2);
 simon.hitSquare(4); // wrong - so should show error sequence
 
+simon.hitSquare(1);
+simon.hitSquare(2);
+simon.hitSquare(3);
 
+simon.hitSquare(1);
+simon.hitSquare(2);
+simon.hitSquare(3);
+simon.hitSquare(4);
 
