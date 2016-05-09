@@ -17,19 +17,15 @@ class Synth {
     
     constructor() {
         this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        // this.oscillator = null;
-        // this.onStop = null;
-        // this.soundStarted = false;
     }
     
-    // start synth
+    // start synth oscillator
     start(note=1) {
         if (this.oscillator) {
-            // console.log('error - oscillator exists');
+            console.log('error - oscillator exists');
             return;
         }
         var frequency = m_pitches[note-1];
-        // console.log('startsound',note,frequency);
         var oscillator = this.audioCtx.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.value = frequency; // Hz
@@ -47,9 +43,8 @@ class Synth {
         this.oscillator = oscillator;
     }
     
-    // stop synth
+    // stop synth oscillator
     stop(square) {
-        // console.log('stopsound',square);
         if (this.soundStarted && this.oscillator) {
             //.. ramp down
             this.oscillator.stop();

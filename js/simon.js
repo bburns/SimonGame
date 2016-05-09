@@ -30,17 +30,18 @@ class Simon {
         this.ui.setScore('--');
     }
 
+    // initial state
     on() {
         this.state = stateOn;
         this.ui.setScore('--');
         // wait for user to hit start
     }
     
-    // public
+    // game has started
+    // called from ui
     start() {
         this.state = stateStart;
         this.squares = this._generateSquares(maxSquares);
-        // console.log(this.squares);
         this.pause = pauseBetweenRounds; // msec between rounds
         this.speed = 1.0;
         this.speedIncrease = speedIncrease; // speed multiplier
@@ -53,37 +54,34 @@ class Simon {
         setTimeout(this._playSquares.bind(this), this.pause); // next state
     }
     
-    // public
-    // this is called from the ui when user hits a square
+    // user hit a square
+    // called from ui
     hitSquare(square) {
-        // if in getinput state, add to usersquares and return true, else return false
-        // console.log('user hit square', square);
+        // if not in getinput state return false
         if (this.state !== stateGetInput) return false;
         
-        // console.log('nsquare,squares.length,toplay', this.nsquare, this.squares.length, this.nsquaresToPlay);
+        // see if hit right square
         var squareShouldBe = this.squares[this.nsquare];
-        // console.log('should be', squareShouldBe);
         if (square===squareShouldBe) {
             this.nsquare++;
             if (this.nsquare>=this.squares.length) { // won game
                 setTimeout(this._playWin.bind(this), this.pause);
-            } else if (this.nsquare===this.nsquaresToPlay) { // finished sequence
+            } else if (this.nsquare===this.nsquaresToPlay) { // finished the sequence
                 this.ui.setScore(this.nsquaresToPlay + '/' + maxSquares);
-                // console.log('done with sequence - increase speed and ntoplay');
-                // this.speed *= 1.1; // increase speed
                 this.speed *= this.speedIncrease; // increase speed
-                this.nsquaresToPlay++;
+                this.nsquaresToPlay++; // increase sequence length
                 setTimeout(this._playSquares.bind(this), this.pause);
             } else {
                 // just wait for next input
             }
-        } else { // error
+        } else { // error - play the error sequence
             setTimeout(this._playError.bind(this), this.pause);
         }
         return true;
     }
     
-    // public
+    // toggle strict mode
+    // called from ui
     toggleStrict() {
         this.strict = !this.strict;
     }
@@ -101,9 +99,9 @@ class Simon {
         return squares;
     }
     
+    // play the sequence of squares
     _playSquares() {
         this.state = statePlaySquares;
-        // console.log('playsquares', this.nsquaresToPlay, 'squares');
         this.ui.setScore(this.nsquaresToPlay-1 + '/' + maxSquares);
         var length = this.noteLength / this.speed;
         var gap = this.gapLength / this.speed;
@@ -113,17 +111,21 @@ class Simon {
         }.bind(this));
     }
     
+    // play the error sequence
     _playError() {
         this.state = statePlayError;
         this.ui.playSquares(this.errorSequence, null, winErrorLength, 1, function() {
             if (this.strict) {
+                // end the game if in strict mode
                 setTimeout(this.on.bind(this), this.pause);
             } else {
+                // play sequence again if not strict
                 setTimeout(this._playSquares.bind(this), this.pause);
             }
         }.bind(this));
     }
     
+    // play the win sequence
     _playWin() {
         this.state = statePlayWin;
         this.ui.setScore(maxSquares + '/' + maxSquares);
