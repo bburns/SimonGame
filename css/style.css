@@ -42,6 +42,7 @@ body {
     width: 100px;
     /* border: 1px solid black; */
     /* box-shadow: 2px 2px #222; */
+    cursor: pointer;
 }
 #squares td:hover {
     outline: 1px dotted #08f;
@@ -103,4 +104,6 @@ input:checked + label {
 input:hover + label {
     outline: 1px dotted #08f;
 }
+
+
 

@@ -6,8 +6,9 @@ const pauseBetweenRounds = 500; // msec between rounds
 const noteLength = 250; // initial note length, msec
 const gapLength = 50; // initial gap between notes, msec
 const speedIncrease = 1.1; // speed multiplier between rounds
-const errorSequence = [4,3,2,1,4,3,2,1,4,3,2,1];
+const winErrorLength = 150; // note length for win and error sequences
 const winSequence = [1,2,3,4,1,2,3,4,1,2,3,4];
+const errorSequence = [4,3,2,1,4,3,2,1];
 
 
 // game states
@@ -39,7 +40,7 @@ class Simon {
     start() {
         this.state = stateStart;
         this.squares = this._generateSquares(maxSquares);
-        console.log(this.squares);
+        // console.log(this.squares);
         this.pause = pauseBetweenRounds; // msec between rounds
         this.speed = 1.0;
         this.speedIncrease = speedIncrease; // speed multiplier
@@ -47,6 +48,8 @@ class Simon {
         this.gapLength = gapLength; // msec
         // this.decayLength = 50; // msec
         this.nsquaresToPlay = 1; // current number of squares to play
+        this.winSequence = winSequence;
+        this.errorSequence = errorSequence;
         setTimeout(this._playSquares.bind(this), this.pause); // next state
     }
     
@@ -65,6 +68,7 @@ class Simon {
             if (this.nsquare>=this.squares.length) { // won game
                 setTimeout(this._playWin.bind(this), this.pause);
             } else if (this.nsquare===this.nsquaresToPlay) { // finished sequence
+                this.ui.setScore(this.nsquaresToPlay + '/' + maxSquares);
                 // console.log('done with sequence - increase speed and ntoplay');
                 // this.speed *= 1.1; // increase speed
                 this.speed *= this.speedIncrease; // increase speed
@@ -99,8 +103,8 @@ class Simon {
     
     _playSquares() {
         this.state = statePlaySquares;
-        console.log('playsquares', this.nsquaresToPlay, 'squares');
-        this.ui.setScore(this.nsquaresToPlay + '/' + maxSquares);
+        // console.log('playsquares', this.nsquaresToPlay, 'squares');
+        this.ui.setScore(this.nsquaresToPlay-1 + '/' + maxSquares);
         var length = this.noteLength / this.speed;
         var gap = this.gapLength / this.speed;
         this.ui.playSquares(this.squares, this.nsquaresToPlay, length, gap, function() {
@@ -111,8 +115,7 @@ class Simon {
     
     _playError() {
         this.state = statePlayError;
-        // this.ui.playSquares([4,3,2,1,4,3,2,1,4,3,2,1], null, 50, 0, function() {
-        this.ui.playSquares(this.errorSequence, null, 50, 0, function() {
+        this.ui.playSquares(this.errorSequence, null, winErrorLength, 1, function() {
             if (this.strict) {
                 setTimeout(this.on.bind(this), this.pause);
             } else {
@@ -123,7 +126,8 @@ class Simon {
     
     _playWin() {
         this.state = statePlayWin;
-        this.ui.playSquares(this.winSequence, null, 50, 0, function() {
+        this.ui.setScore(maxSquares + '/' + maxSquares);
+        this.ui.playSquares(this.winSequence, null, winErrorLength, 1, function() {
             setTimeout(this.on.bind(this), this.pause);
         }.bind(this));
     }

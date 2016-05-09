@@ -21,11 +21,11 @@ class Ui {
 var $square = [];
 var lights = {};
 lights.start = function(square) {
-    console.log('lights start', square);
+    // console.log('lights start', square);
     $square[square].addClass('lit');
 };
 lights.stop = function(square) {
-    console.log('lights stop', square);
+    // console.log('lights stop', square);
     $square[square].removeClass('lit');
 };
 
