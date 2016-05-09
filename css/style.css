@@ -29,7 +29,7 @@ body {
     /* box-shadow: 2px 2px #222; */
 }
 #squares td:hover {
-    outline: 1px dotted gray;
+    outline: 1px dotted #08f;
 }
 #squares td:active {
     position: relative;
@@ -60,7 +60,7 @@ a#start {
     text-decoration: none;
 }
 a#start:hover {
-    outline: 1px dotted gray;
+    outline: 1px dotted #08f;
 }
 
 /* the strict toggle button */
@@ -85,13 +85,7 @@ input:checked + label {
     border-color: yellow;
     color: yellow;
 }
-/* input:focus + label { */
-/*   border-color: blue; */
-/* } */
-/* input:focus:checked + label { */
-/*   border-color: green; */
-/* } */
 input:hover + label {
-    outline: 1px dotted gray;
+    outline: 1px dotted #08f;
 }
 
