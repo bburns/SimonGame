@@ -11,6 +11,9 @@ class Ui {
         this.sequencer.load(squares);
         this.sequencer.play(ntoplay, duration, gap, next);
     }
+    setScore(score) {
+        $('#score').text(score);
+    }
 }
 
 

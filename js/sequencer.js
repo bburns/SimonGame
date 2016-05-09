@@ -1,9 +1,7 @@
-
 'use strict';
 
-
 // the sequencer hooks up to a synthesizer and light array,
-// and can play a set sequence of notes in order
+// and can play a set sequence of notes in order, with a gap between them.
 
 class Sequencer {
     constructor(synth, lights) {
