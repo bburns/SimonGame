@@ -42,4 +42,6 @@ class Sequencer {
 }
 
 
-module.exports = Sequencer;
+// for testing
+if (module) 
+    module.exports = Sequencer;

@@ -1,14 +1,14 @@
-
-// the synthesizer plays sounds using the web audio api built into modern browsers
-
 'use strict';
+
+// the synthesizer plays sounds using the web audio api built into the browser
+// see https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
 
 
 // define pitches
 // see https://en.wikipedia.org/wiki/Piano_key_frequencies
-var G=391.995, A=440.000, C=523.251, F=349.228, C3=180.813, C6=1046.50;
+var F=349.228, G=391.995, A=440.000, C=523.251, C3=180.813, C6=1046.50;
 
-var m_pitches = [G,A,C,F];
+var m_pitches = [F,G,A,C];
 var m_pitchLose = C3;
 var m_pitchWin = C6;
 
