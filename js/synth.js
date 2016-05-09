@@ -26,28 +26,33 @@ class Synth {
             return;
         }
         var frequency = m_pitches[note-1];
-        var oscillator = this.audioCtx.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.value = frequency; // Hz
-        oscillator.connect(this.audioCtx.destination);
-        // var gainNode = this.audioCtx.createGain();
-        // oscillator.connect(gainNode);
+        this.oscillator = this.audioCtx.createOscillator();
+        this.oscillator.type = 'sine';
+        this.oscillator.frequency.value = frequency; // Hz
+        // oscillator.connect(this.audioCtx.destination);
+        this.gainNode = this.audioCtx.createGain();
+        this.oscillator.connect(this.gainNode);
         // gainNode.connect(this.audioCtx.destination);
-        // const startVolume = 0.2;
-        // const endVolume = 0.001;
         // gainNode.gain.setValueAtTime(startVolume, this.audioCtx.currentTime);
         // gainNode.gain.exponentialRampToValueAtTime(endVolume, this.audioCtx.currentTime + duration/1000); // secs
         // oscillator.start(startTime);
-        oscillator.start();
+        this.oscillator.start();
         this.soundStarted = true;
-        this.oscillator = oscillator;
     }
     
     // stop synth oscillator
     stop(square) {
         if (this.soundStarted && this.oscillator) {
+            // this.oscillator.stop();
             //.. ramp down
-            this.oscillator.stop();
+            const startVolume = 0.2;
+            const endVolume = 0.001;
+            const rampDuration = 50;
+            var currentTime = this.audioCtx.currentTime; // secs
+            var stopTime = currentTime + (rampDuration/1000); // secs
+            this.gainNode.gain.setValueAtTime(startVolume, currentTime);
+            this.gainNode.gain.exponentialRampToValueAtTime(endVolume, stopTime);
+            this.oscillator.stop(stopTime);
             this.oscillator = null;
             this.soundStarted = false;
         }

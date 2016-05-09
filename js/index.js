@@ -63,6 +63,7 @@ $(document).ready(function() {
 
     $('#start').on('click', function() {simon.start();});
     $('#strict').on('click', function() {simon.toggleStrict();});
+    $('#strict').prop('checked', false);
     
     for (var i = 1; i<=4; i++) {
         var idname = '#color'+i;

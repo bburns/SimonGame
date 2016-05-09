@@ -6,9 +6,10 @@ const pauseBetweenRounds = 500; // msec between rounds
 const noteLength = 250; // initial note length, msec
 const gapLength = 50; // initial gap between notes, msec
 const speedIncrease = 1.1; // speed multiplier between rounds
-const winErrorLength = 150; // note length for win and error sequences
+const errorSequence = [1];
+const errorLength = 1000; // note length for error sequence
 const winSequence = [1,2,3,4,1,2,3,4,1,2,3,4];
-const errorSequence = [4,3,2,1,4,3,2,1];
+const winLength = 100; // note length for win sequence
 
 
 // game states
@@ -42,16 +43,10 @@ class Simon {
     start() {
         this.state = stateStart;
         this.squares = this._generateSquares(maxSquares);
-        this.pause = pauseBetweenRounds; // msec between rounds
         this.speed = 1.0;
-        this.speedIncrease = speedIncrease; // speed multiplier
-        this.noteLength = noteLength; // msec
-        this.gapLength = gapLength; // msec
         // this.decayLength = 50; // msec
         this.nsquaresToPlay = 1; // current number of squares to play
-        this.winSequence = winSequence;
-        this.errorSequence = errorSequence;
-        setTimeout(this._playSquares.bind(this), this.pause); // next state
+        setTimeout(this._playSquares.bind(this), pauseBetweenRounds); // next state
     }
     
     // user hit a square
@@ -65,17 +60,17 @@ class Simon {
         if (square===squareShouldBe) {
             this.nsquare++;
             if (this.nsquare>=this.squares.length) { // won game
-                setTimeout(this._playWin.bind(this), this.pause);
+                setTimeout(this._playWin.bind(this), pauseBetweenRounds);
             } else if (this.nsquare===this.nsquaresToPlay) { // finished the sequence
                 this.ui.setScore(this.nsquaresToPlay + '/' + maxSquares);
-                this.speed *= this.speedIncrease; // increase speed
+                this.speed *= speedIncrease; // increase speed
                 this.nsquaresToPlay++; // increase sequence length
-                setTimeout(this._playSquares.bind(this), this.pause);
+                setTimeout(this._playSquares.bind(this), pauseBetweenRounds);
             } else {
                 // just wait for next input
             }
         } else { // error - play the error sequence
-            setTimeout(this._playError.bind(this), this.pause);
+            setTimeout(this._playError.bind(this), pauseBetweenRounds);
         }
         return true;
     }
@@ -103,8 +98,8 @@ class Simon {
     _playSquares() {
         this.state = statePlaySquares;
         this.ui.setScore(this.nsquaresToPlay-1 + '/' + maxSquares);
-        var length = this.noteLength / this.speed;
-        var gap = this.gapLength / this.speed;
+        var length = noteLength / this.speed;
+        var gap = gapLength / this.speed;
         this.ui.playSquares(this.squares, this.nsquaresToPlay, length, gap, function() {
             this.nsquare = 0;
             this.state = stateGetInput; // next state - wait for user input
@@ -114,13 +109,13 @@ class Simon {
     // play the error sequence
     _playError() {
         this.state = statePlayError;
-        this.ui.playSquares(this.errorSequence, null, winErrorLength, 1, function() {
+        this.ui.playSquares(errorSequence, null, errorLength, 1, function() {
             if (this.strict) {
-                // end the game if in strict mode
-                setTimeout(this.on.bind(this), this.pause);
+                // start a new game if in strict mode
+                setTimeout(this.start.bind(this), pauseBetweenRounds);
             } else {
                 // play sequence again if not strict
-                setTimeout(this._playSquares.bind(this), this.pause);
+                setTimeout(this._playSquares.bind(this), pauseBetweenRounds);
             }
         }.bind(this));
     }
@@ -129,8 +124,8 @@ class Simon {
     _playWin() {
         this.state = statePlayWin;
         this.ui.setScore(maxSquares + '/' + maxSquares);
-        this.ui.playSquares(this.winSequence, null, winErrorLength, 1, function() {
-            setTimeout(this.on.bind(this), this.pause);
+        this.ui.playSquares(winSequence, null, winLength, 1, function() {
+            setTimeout(this.on.bind(this), pauseBetweenRounds);
         }.bind(this));
     }
     
