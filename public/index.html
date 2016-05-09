@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8">
+        <title>Simon</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        
+        <div id="title">Simon</div>
+        <div class="container">
+
+            <div id="game">
+                
+                <table id="squares">
+                    <tr> <td id="color1"></td> <td id="color2"></td> </tr>
+                    <tr> <td id="color3"></td> <td id="color4"></td> </tr>
+                </table>
+                
+                <div id="controls">
+                    <div>Score: <span id="score"></span></div>
+                    <div>
+                        <a id="start" href="#">Start</a>
+                        <input id="strict" type="checkbox" class="vis-hidden" value="Strict" />
+                        <label for="strict" title="In strict mode, the game will start over with a new sequence when you make an error.">Strict</label>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+        <script src="js/synth.js"></script>
+        <script src="js/sequencer.js"></script>
+        <script src="js/simon.js"></script>
+        <script src="js/index.js"></script>
+        
+    </body>
+</html>

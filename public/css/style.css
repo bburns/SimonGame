@@ -1,0 +1,109 @@
+
+@import url(https://fonts.googleapis.com/css?family=Raleway:300);
+
+body {
+    color: #ccc;
+    background-color: #222;
+    box-sizing: border-box;
+    font-family: 'Raleway', serif;
+}
+
+
+#title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    color: #ccc;
+    font-size: 2em;
+    padding: 0 0.25em;
+}
+
+
+.container {
+}
+
+
+#game {
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: 50%;
+    margin-top: -140px;
+}
+
+#squares {
+    border-spacing: 6px;
+}
+
+#squares td {
+    height: 100px;
+    width: 100px;
+    /* border: 1px solid black; */
+    /* box-shadow: 2px 2px #222; */
+    cursor: pointer;
+}
+#squares td:hover {
+    outline: 1px dotted #08f;
+}
+#squares td:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+#color1 {background: #35C9B0;}
+#color1.lit {background: #6ff;}
+#color2 {background: #96DB02;}
+#color2.lit {background: #bf3;}
+#color3 {background: #6F31C4;}
+#color3.lit {background: #96f;}
+#color4 {background: #296BD6;}
+#color4.lit {background: #48f;}
+
+
+#controls {
+    text-align: center;
+}
+
+a#start {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid gray;
+    color: #0f0;
+    text-decoration: none;
+}
+a#start:hover {
+    outline: 1px dotted #08f;
+}
+
+/* the strict toggle button */
+.vis-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+label {
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+input:checked + label {
+    border-color: yellow;
+    color: yellow;
+}
+input:hover + label {
+    outline: 1px dotted #08f;
+}
+
+
+
