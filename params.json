@@ -1,0 +1,6 @@
+{
+  "name": "Fcc-simon",
+  "tagline": "The Simon game, for FreeCodeCamp",
+  "body": "# Welcome to Simon\r\n\r\nTo play the game, click [here](https://github.com/bburns/fcc-simon/public).\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
