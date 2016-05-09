@@ -1,7 +1,7 @@
 
 body {
     color: #ccc;
-    background-color: #333;
+    background-color: #222;
     box-sizing: border-box;
 }
 
@@ -15,7 +15,7 @@ body {
     left: 50%;
     margin-left: -100px;
     top: 50%;
-    margin-top: -125px;
+    margin-top: -140px;
 }
 
 #squares {
@@ -37,34 +37,33 @@ body {
     left: 1px;
 }
 
-#color1 {background: #800;}
-#color2 {background: #080;}
-#color3 {background: #850;}
-#color4 {background: #048;}
-
-#color1.lit {background: #f00;}
-#color2.lit {background: lime;}
-#color3.lit {background: #fa0;}
-#color4.lit {background: #00a0ff;}
+#color1 {background: #35C9B0;}
+#color1.lit {background: #6ff;}
+#color2 {background: #96DB02;}
+#color2.lit {background: #bf3;}
+#color3 {background: #6F31C4;}
+#color3.lit {background: #96f;}
+#color4 {background: #296BD6;}
+#color4.lit {background: #48f;}
 
 
 #controls {
     text-align: center;
 }
 
-
-
-
 a#start {
     display: block;
     margin: 5px;
     padding: 5px;
     border: 1px solid gray;
-    color: red;
-text-decoration: none;
+    color: #0f0;
+    text-decoration: none;
+}
+a#start:hover {
+    outline: 1px dotted gray;
 }
 
-
+/* the strict toggle button */
 .vis-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -75,7 +74,6 @@ text-decoration: none;
     position: absolute;
     width: 1px;
 }
-
 label {
     display: block;
     margin: 5px;
@@ -83,21 +81,17 @@ label {
     border: 1px solid gray;
     cursor: pointer;
 }
-
 input:checked + label {
     border-color: yellow;
     color: yellow;
 }
-
 /* input:focus + label { */
 /*   border-color: blue; */
 /* } */
-
 /* input:focus:checked + label { */
 /*   border-color: green; */
 /* } */
-
-/* input:active + label { */
-/*   border-color: yellow; */
-/* } */
+input:hover + label {
+    outline: 1px dotted gray;
+}
 
