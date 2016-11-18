@@ -1,8 +1,10 @@
 
-# Simon
+# SimonGame
 
-The Simon game, for FreeCodeCamp.
+The Simon game written with JavaScript and a bit of jQuery, developed for the [Front End Development Certification from FreeCodeCamp](https://www.freecodecamp.com/bburns). 
 
-To play the game, see the GitHub page -  http://bburns.github.io/fcc-simon. 
+<img src="screenshots/SimonGame.png" />
+
+Click [here](https://bburns.github.io/SimonGame) to play.
 
 
